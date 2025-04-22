@@ -1,0 +1,25 @@
+#ifndef FIREBALL_H
+#define FIREBALL_H
+
+#include <raylib.h>
+#include "collisionbox.h"
+#include "weapon.h"
+
+/*--------------------------------------
+調用FireBallAttack時，會依據角色位置,在角色中心半徑為radius的圓上持續繞圈，並攻擊碰到的敵人。
+火球數量會受到projectileCount的影響。
+每個火球都會在boxes中生成對應的CollsitionBox。
+--------------------------------------*/
+
+typedef struct FireBall{
+  Weapon base;
+  unsigned int projectileCount;
+  double radius;
+  CollisionBox boxes[6];
+}FireBall;
+
+void FireBallAttack(Weapon* self);                        //火球的攻擊函數
+void FireBallUpdate(Weapon* self, float deltaTime);       //火球的狀態更新函數
+void FireBallDestroy(Weapon* slef);                       //火球的銷毀函數
+
+#endif
