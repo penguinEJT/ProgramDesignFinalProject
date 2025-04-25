@@ -1,7 +1,6 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
-#include <cstdlib>
 #include <raylib.h>
 
 typedef struct Weapon{
@@ -11,7 +10,8 @@ typedef struct Weapon{
   
   double attackPower;            //攻擊力
   double attackRange;            //攻擊範圍
-  double attaclSpeed;            //攻擊速度
+  double attackSpeed;            //攻擊速度
+
   double curCooldownTime;        //紀錄武器的冷卻時間
   double maxCoolTime;            //武器默認的冷卻時間
   unsigned int level;            //武器當前等級
@@ -22,13 +22,13 @@ typedef struct Weapon{
   bool isAttack;                 //用以判斷武器是否正在攻擊狀態
 
   //武器行為
-  void (*attack)(Weapon* self);                        //武器攻擊函數，用以生成CollsionBox,或是Circle來進行攻擊碰撞判定
-  void (*update)(Weapon* self, float deltaTime);       //武器狀態更新函數，用以更新武器冷卻時間、繪製攻擊動畫
-  void (*destroy)(Weapon*);                            //武器銷毀函數，用以將武器從記憶體中清除
+  void (*attack)(struct Weapon* self);                        //武器攻擊函數，用以生成CollsionBox,或是Circle來進行攻擊碰撞判定
+  void (*update)(struct Weapon* self, double deltaTime);      //武器狀態更新函數，用以更新武器冷卻時間、繪製攻擊動畫
+  void (*destroy)(struct Weapon* self);                       //武器銷毀函數，用以將武器從記憶體中清除
  
 }Weapon;
 
 //武器初始化函數，用以初始化基本的武器資訊
-Weapon* WeaponInition(char name[51], Texture2D texture, double attackPower, double attackRange, double attackSpeed, double maxCoolTime, Vector2 position);  
+Weapon* WeaponInition(char name[51],Texture2D texture, double attackPower, double attackRange, double attackSpeed, double maxCoolTime, Vector2 position);  
 
 #endif

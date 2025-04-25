@@ -21,13 +21,17 @@ typedef struct Hero{
   double attackPower;              //角色攻擊力
   double pickupRadius;             //英雄的拾取半徑
 
-  void (*move)(Hero* self, KeyboardKey key);   //角色移動
-  void (*update)(Hero* self, float deltaTime); //角色狀態更新
-  void (*destroy)(Hero* self);                 //角色銷毀函數,將角色從記憶體中刪除
+  void (*move)(struct Hero* self);                     //角色移動
+  void (*draw)(struct Hero* self);                     //角色的繪製函數
+  void (*update)(struct Hero* self, double deltaTime); //角色狀態更新
+  void (*destroy)(struct Hero* self);                  //角色銷毀函數,將角色從記憶體中刪除
 }Hero;
 
-Hero* HeroInit(Vector2 position, Vector2 direction, Texture2D texture, double attackPower, double speed, double hp, double pickupRange);   //角色初始化函數
+Hero* HeroInit(char name[51], Vector2 position, Texture2D texture, double attackPower, double speed, double hp, double pickRadius);   //角色初始化函數
 
-void heroMove(Hero* self, KeyboardKey);    //依照輸入決定角色移動
+void HeroMove(Hero* self);                                   //依照輸入決定角色移動
+void HeroDraw(Hero* self);                                   //繪製角色貼圖
+void HeroUpdate(Hero* self, double deltaTime);               //更新角色狀態（武器冷卻時間等）
+void HeroDestroy(Hero* self);                                //角色銷毀函數
 
 #endif

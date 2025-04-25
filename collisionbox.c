@@ -91,3 +91,24 @@ bool CheckCollsionBox(CollisionBox box1, CollisionBox box2) {
     // No separating axis found, collision exists
     return true;
 }
+
+void CollsionBoxRotation(CollisionBox *box, Vector2 vector) {
+// 檢查是否為零向量，避免未定義行為
+    if (vector.x == 0.0f && vector.y == 0.0f) {
+        // 零向量不改變旋轉角度
+        return;
+    }
+
+    // 使用 atan2 計算向量與正 X 軸的夾角（弧度）
+    float angleRad = -atan2f(vector.y, vector.x);
+    
+    // 將弧度轉換為度數
+    float angleDeg = angleRad * (180.0f / PI);
+    
+    // 規範化角度到 [0, 360) 範圍
+    while (angleDeg >= 360.0f) angleDeg -= 360.0f;
+    while (angleDeg < 0.0f) angleDeg += 360.0f;
+    
+    // 設置方塊的旋轉角度
+    box->rotationAngle = angleDeg;
+}
