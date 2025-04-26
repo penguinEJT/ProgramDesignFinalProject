@@ -70,6 +70,34 @@ void HeroDraw(Hero* self) {
 }
 
 void HeroUpdate(Hero *self, double deltaTime) {
+  // 【1】回血
+    self->hp += self->hpRecoveryRate * deltaTime;
+    if (self->hp > 100.0f) self->hp = 100.0f; // 假設最大血量100
+
+    // 【2】經驗值升級檢查
+    if (self->exp >= self->nextLevelExp) {
+        self->exp -= self->nextLevelExp;
+        self->level++;
+        self->nextLevelExp = (int)(self->nextLevelExp * 1.5); // 升級需求提升
+
+        // 呼叫被動選單
+        int selectedPassive = PassiveSelectionInterfece();
+
+        // 根據選擇增加能力
+        if (selectedPassive == 0) {
+            self->hpRecoveryRate += 1.0f; // 生命回復速度增加
+        }
+        else if (selectedPassive == 1) {
+            for (int i = 0; i < self->weaponCount; i++) {
+                self->weapons[i]->attackRange *= 1.2f; // 射程 +20%
+            }
+        }
+        else if (selectedPassive == 2) {
+            for (int i = 0; i < self->weaponCount; i++) {
+                self->weapons[i]->attackPower *= 1.2f; // 攻擊力 +20%
+            }
+        }
+    }
   //調整碰撞箱的大小和位置
   self->box.rec.width = self->texture.width;
   self->box.rec.height = self->texture.height;
