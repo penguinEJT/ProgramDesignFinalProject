@@ -4,6 +4,7 @@
 #include "hero.h"
 #include "collisionbox.h"
 #include "weapon.h"
+#include "selectioninterface.h"
 
 
 Hero* HeroInit(char name[51], Vector2 position, Texture2D texture, double attackPower, double speed, double hp, double pickupRadius) {
@@ -16,6 +17,10 @@ Hero* HeroInit(char name[51], Vector2 position, Texture2D texture, double attack
   hero->texture = texture;
 
   hero->weaponCount = 0;
+  hero->hpRecoveryRate = 0.0;
+  hero->level = 1;
+  hero->exp = 0;
+  hero->nextLevelExp = 100;  // 需要100經驗值升級
 
   hero->attackPower = attackPower;
   hero->speed = speed;
