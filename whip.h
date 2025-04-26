@@ -12,10 +12,13 @@
 typedef struct Whip {
   Weapon base;          //紀錄鞭子的基本資訊
   CollisionBox box;     //碰撞箱,用以進行碰撞檢測
+  double curAttackTime;
+  double maxAttackTime;
 }Whip;
 
+Whip* WhipInit();                                     //鞭子的生成函數
 void WhipAttack(Weapon* self);                        //鞭子的攻擊函數
-void WhipUpdate(Weapon* self, float deltaTime);       //鞭子的狀態更新函數
+void WhipUpdate(Weapon* self, double deltaTime);       //鞭子的狀態更新函數
 void WhipDestroy(Weapon* slef);                       //鞭子的銷毀函數
 
 

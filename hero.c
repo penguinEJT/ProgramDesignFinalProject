@@ -79,10 +79,10 @@ void HeroUpdate(Hero *self, double deltaTime) {
 
   //更新各個武器的狀態
   for(int i=0; i<self->weaponCount; i++) {
-    //調整武器位置
 
-    self->weapons[i]->position.x = self->position.x + self->texture.width/2;
-    self->weapons[i]->position.y = self->position.y + self->texture.height/2;
+    //調整武器位置
+    self->weapons[i]->position.x = self->position.x;
+    self->weapons[i]->position.y = self->position.y;
     //調整武器方向
     self->weapons[i]->direction = self->direction;
 

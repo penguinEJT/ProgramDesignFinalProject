@@ -92,6 +92,38 @@ bool CheckCollsionBox(CollisionBox box1, CollisionBox box2) {
     return true;
 }
 
+bool CheckCollisionBoxAndCircle(CollisionBox box, Vector2 centerPosition, double radius) {
+    // 取得長方形中心
+    Vector2 boxCenter = { box.rec.x + box.rec.width / 2, box.rec.y + box.rec.height / 2 };
+    
+    // 將圓心相對於長方形中心的位置向量
+    Vector2 relativePos = { centerPosition.x - boxCenter.x, centerPosition.y - boxCenter.y };
+    
+    // 將旋轉角度轉換為弧度
+    float theta = box.rotationAngle * (PI / 180.0f);
+    float cosTheta = cosf(theta);
+    float sinTheta = sinf(theta);
+    
+    // 逆旋轉圓心到長方形的局部座標系
+    Vector2 localPos;
+    localPos.x = relativePos.x * cosTheta + relativePos.y * sinTheta;
+    localPos.y = -relativePos.x * sinTheta + relativePos.y * cosTheta;
+    
+    // 在局部座標中，長方形是軸對齊的，計算最近點
+    Vector2 closestPoint;
+    closestPoint.x = fmaxf(-box.rec.width / 2, fminf(localPos.x, box.rec.width / 2));
+    closestPoint.y = fmaxf(-box.rec.height / 2, fminf(localPos.y, box.rec.height / 2));
+    
+    // 計算圓心到最近點的距離向量
+    Vector2 distance = { localPos.x - closestPoint.x, localPos.y - closestPoint.y };
+    
+    // 計算距離（歐幾里得距離）
+    double distSquared = distance.x * distance.x + distance.y * distance.y;
+    
+    // 若距離小於或等於半徑平方，則碰撞
+    return distSquared <= radius * radius;
+}
+
 void CollsionBoxRotation(CollisionBox *box, Vector2 vector) {
 // 檢查是否為零向量，避免未定義行為
     if (vector.x == 0.0f && vector.y == 0.0f) {

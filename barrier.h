@@ -11,10 +11,12 @@ radius會依據attackRange而改變。
 
 typedef struct Barrier{
   Weapon base;             //結界的基本資訊
+  Vector2 circleCenter;    //結界的圓心
   double radius;           //結界的攻擊半徑
 }Barrier;
 
+Barrier* BarrierInit();                                   //結界的初始化函數
 void BarrierAttack(Weapon* self);                        //結界的攻擊函數
-void BarrierUpdate(Weapon* self, float deltaTime);       //結界的狀態更新函數
+void BarrierUpdate(Weapon* self, double deltaTime);      //結界的狀態更新函數
 void BarrierDestroy(Weapon* slef);                       //結界的銷毀函數
 #endif

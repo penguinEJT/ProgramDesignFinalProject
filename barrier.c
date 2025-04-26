@@ -1,0 +1,62 @@
+#include <raylib.h>
+#include <stdlib.h>
+#include "weapon.h"
+#include "barrier.h"
+
+Barrier* BarrierInit() {
+  Barrier* barrier = (Barrier*)malloc(sizeof(Barrier));
+  char weaponName[51] = "Barrier";
+
+  Weapon* base = WeaponInition(
+    weaponName,                                            //武器名稱
+    LoadTexture("resources/weapon/barrier.png"),           //武器貼圖
+    5.0f,                                                  //攻擊力
+    2.0f,                                                  //攻擊範圍
+    20.0f,                                                 //攻擊速度
+    0.0f,                                                  //冷卻時間
+    (Vector2){0,0}                                         //初始位置
+  );
+
+  barrier->base = *base;
+  free(base);
+
+  barrier->base.attack = BarrierAttack;
+  barrier->base.update = BarrierUpdate;
+  barrier->base.destroy = BarrierDestroy;
+
+  barrier->circleCenter = (Vector2) {
+    barrier->base.position.x + barrier->base.texture.width/2.0f + 180.0f,
+    barrier->base.position.y + barrier->base.texture.height/2.0f + 180.0f,
+  };
+  barrier->radius = 360.0f;
+
+  return barrier;
+}
+
+void BarrierAttack(Weapon* self) {
+  Barrier* barrier = (Barrier*)self;
+
+  DrawTextureEx(barrier->base.texture, barrier->base.position, 0.0f, barrier->base.attackRange, WHITE);
+
+}
+
+void BarrierUpdate(Weapon* self, double deltaTime) {
+  Barrier* barrier = (Barrier*)self;
+
+  //調整圓心位置
+  barrier->circleCenter = (Vector2) {
+    barrier->base.position.x + barrier->base.texture.width/2.0f + 180.0f,
+    barrier->base.position.y + barrier->base.texture.height/2.0f + 180.0f,
+  };
+
+  //調整圓的半徑
+
+  barrier->base.attack(&barrier->base);
+}
+
+void BarrierDestroy(Weapon *self) {
+  Barrier* barrier = (Barrier*)self;
+
+  free(barrier);
+}
+
