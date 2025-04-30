@@ -4,8 +4,7 @@
 #include "hero.h"
 #include "collisionbox.h"
 #include "weapon.h"
-
-
+#include "selectioninterface.h"
 Hero* HeroInit(char name[51], Vector2 position, Texture2D texture, double attackPower, double speed, double hp, double pickupRadius) {
   Hero* hero = (Hero*)malloc(sizeof(Hero));
 
